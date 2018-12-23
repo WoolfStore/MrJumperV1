@@ -1,6 +1,3 @@
-//
-//  allclass.hpp
-//  sfml test
 
 
 #ifndef allclass_h
@@ -24,15 +21,35 @@ public:
     }
 };
 
-class enemy {
+
+
+
+class enemy  {
 public:
+	class enemy();
     bool enemyMove;
     bool enemyLive;
+    int lives;
+    Image image;
+    Texture texture;
+    Sprite enemysprite; }
+
+
+
+class enemy1 : public enemy {
+public:
+	class enemy();
+    bool enemyMove;
+    bool enemyLive;
+    int lives;
+
     Image image;
     Texture texture;
     Sprite enemysprite;
-    
-    enemy(float X, float Y){
+
+
+    enemy1 (float X, float Y){
+
         image.loadFromFile("bones.png");
         texture.loadFromImage(image);
         enemysprite.setTexture(texture);
@@ -41,6 +58,7 @@ public:
     }
 };
 
+
 class enemy2 {
 public:
     bool enemyMove;
@@ -48,6 +66,10 @@ public:
     Image image;
     Texture texture;
     Sprite enemysprite;
+
+class enemy2 : public enemy {
+
+
     
     enemy2(float X, float Y){
         image.loadFromFile("ghost.png");
@@ -58,13 +80,10 @@ public:
     }
 };
 
-class enemy3 {
-public:
-    bool enemyMove;
-    bool enemyLive;
-    Image image;
-    Texture texture;
-    Sprite enemysprite;
+
+class enemy3 : public enemy {
+
+
     
     enemy3(float X, float Y){
         image.loadFromFile("ghost.png");
