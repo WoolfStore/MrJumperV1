@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
 
 #ifndef core_hpp
 #define core_hpp
@@ -18,8 +22,13 @@ void fightWithAShadow(int width, int height); // Вызывать всегда (
 bool comradYouHaveAHole(); // Вызывать всегда
 bool niceShoot(int width, int height); //Вызывать всегда. Возвращает true при попадании во врага. Принимает ширину врага.
 bool stopPlatform(); // Если вовзращает true, останавливаем платформу
+<<<<<<< HEAD
 int heroLives(); // ЖИЗНИИ
 int objectGenerator(); // лютый рандом на генерирование
+=======
+int heroLives(); // ЖИЗНИ
+int objectGenerator(); // рандом на генерирование
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
 int stop();
 int whatIsScore();
 int finish();

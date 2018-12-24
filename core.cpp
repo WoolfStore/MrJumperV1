@@ -32,18 +32,30 @@ struct Bullet{
 
 int score = 0;
 int newY = 0;
+<<<<<<< HEAD
 string name = "Jumper";
+=======
+string name = "Mr.Jumper";
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
 
 Hero mainHero; // Создание главного героя
 Platform platform;
 Platform movingPlatform;
 
 Platform arrayOfPlatforms[9];
+<<<<<<< HEAD
 
 Enemy ghost;
 Bullet enemyBullet;
 Bullet heroBullet;
 
+=======
+
+Enemy ghost;
+Bullet enemyBullet;
+Bullet heroBullet;
+
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
 int quantityOfPlatforms = 1;
 int control = 0;
 
@@ -116,8 +128,13 @@ int onGround(){// возвращает 1 если стоит на колонне
             return 1;
     }
     
+<<<<<<< HEAD
     
     
+=======
+    
+    
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
     if ((mainHero.x >= movingPlatform.x && mainHero.x <= movingPlatform.x + 256) && (mainHero.y - 128 <= movingPlatform.y)){
         return 2;
     }
@@ -139,6 +156,7 @@ void changeEnemyBulletPosition(int x, int y){
 void changeHeroBulletPostion(int x, int y){
     heroBullet.x = x;
     heroBullet.y = convertYCoordinate(y);
+<<<<<<< HEAD
 }
 
 
@@ -153,6 +171,22 @@ int crash() { // столкновение с двигающийся платфо
     return 0;
 }
 
+=======
+}
+
+
+int crash() { // столкновение с двигающийся платформой
+    if ((mainHero.y - 128 >= platform.y) || (mainHero.y <= platform.y - 64)){
+        if (mainHero.x + 64 >= movingPlatform.x + 256+64 && mainHero.x + 64 <= movingPlatform.x + 256+64+5)
+            return 1;
+        else
+            if (mainHero.x >= movingPlatform.x - 69 && mainHero.x <= movingPlatform.x - 64 )
+                return 2;
+    }
+    return 0;
+}
+
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
 void fightWithAShadow(int width, int height){
     if ((mainHero.x + 15 <= ghost.x + width && mainHero.x + 49 >= ghost.x) && (mainHero.y - 118 <= ghost.y) && (mainHero.y - 15 >= ghost.y - height)) mainHero.lives -= 3;
 }
@@ -232,6 +266,7 @@ int finish(){
     if (mainHero.lives == 3) score += 10;
     if (mainHero.lives == 2) score += 5;
     if (mainHero.lives == 1) score += 3;
+<<<<<<< HEAD
     score += 10; // за финиш
     
     ifstream file;
@@ -268,6 +303,12 @@ int finish(){
     
     newFile.close();
     
+=======
+    score += 10; 
+    cout << score;
+    //file.close();
+    fclose(stdout);
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
     return score;
 }
 
@@ -281,11 +322,30 @@ bool endOfJump(){
         }
     }
     return false;
+<<<<<<< HEAD
+=======
+}
+
+void whatIsQuantityOfPlatform(int count){
+    quantityOfPlatforms = count;
+>>>>>>> 154c78d348fb6896623b6c71bb5404d4d6666404
 }
 
 void whatIsQuantityOfPlatform(int count){
     quantityOfPlatforms = count;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
