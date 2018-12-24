@@ -7,16 +7,16 @@ using namespace std;
 
 class platform {
 public:
-    float x, y, w, h = 0;
+    float x, y, w, h;
     Image image;
-    Texture texture;//СЃС„РјР» С‚РµРєСЃС‚СѓСЂР°
-    Sprite platformsprite;//СЃС„РјР» СЃРїСЂР°Р№С‚
+    Texture texture;//сфмл текстура
+    Sprite platformsprite;//сфмл спрайт
     
-    platform(float X, float Y){  //РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё(С„РѕСЂРјР°Р»СЊРЅС‹РјРё) РґР»СЏ РєР»Р°СЃСЃР° Player. РџСЂРё СЃРѕР·РґР°РЅРёРё РѕР±СЉРµРєС‚Р° РєР»Р°СЃСЃР° РјС‹ Р±СѓРґРµРј Р·Р°РґР°РІР°С‚СЊ РёРјСЏ С„Р°Р№Р»Р°, РєРѕРѕСЂРґРёРЅР°С‚Сѓ РҐ Рё РЈ, С€РёСЂРёРЅСѓ Рё РІС‹СЃРѕС‚Сѓ
-        image.loadFromFile("Resources/platform.jpg");
-        texture.loadFromImage(image);//Р·Р°РєРёРґС‹РІР°РµРј РЅР°С€Рµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РІ С‚РµРєСЃС‚СѓСЂСѓ
-        platformsprite.setTexture(texture);//Р·Р°Р»РёРІР°РµРј СЃРїСЂР°Р№С‚ С‚РµРєСЃС‚СѓСЂРѕР№
-        x = X; y = Y;//РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕСЏРІР»РµРЅРёСЏ СЃРїСЂР°Р№С‚Р°
+    platform(float X, float Y){  //Конструктор с параметрами(формальными) для класса Player. При создании объекта класса мы будем задавать имя файла, координату Х и У, ширину и высоту
+        image.loadFromFile("platform.jpg");
+        texture.loadFromImage(image);//закидываем наше изображение в текстуру
+        platformsprite.setTexture(texture);//заливаем спрайт текстурой
+        x = X; y = Y;//координата появления спрайта
 //      platformsprite.setColor(sf::Color(128, 128, 255, 255));
         platformsprite.setTextureRect(IntRect(0, 0, 256, 64));
         platformsprite.setPosition(x,y);
@@ -25,13 +25,13 @@ public:
 
 class enemy {
 public:
-    float x,y,w,h = 0;
+    float x,y,w,h;
     Image image;
     Texture texture;
     Sprite enemysprite;
     
     enemy(float X, float Y){
-        image.loadFromFile("Resources/bones.png");
+        image.loadFromFile("bones.png");
         texture.loadFromImage(image);
         enemysprite.setTexture(texture);
         x = X; y = Y;
@@ -42,13 +42,13 @@ public:
 
 class enemy2 {
 public:
-    float x,y,w,h = 0;
+    float x,y,w,h;
     Image image;
     Texture texture;
     Sprite enemysprite;
     
     enemy2(float X, float Y){
-        image.loadFromFile("Resources/ghost.png");
+        image.loadFromFile("ghost.png");
         texture.loadFromImage(image);
         enemysprite.setTexture(texture);
         x = X; y = Y;
@@ -59,13 +59,13 @@ public:
 
 class enemy3 {
 public:
-    float x,y,w,h = 0;
+    float x,y,w,h;
     Image image;
     Texture texture;
     Sprite enemysprite;
     
     enemy3(float X, float Y){
-        image.loadFromFile("Resources/ghost.png");
+        image.loadFromFile("hero.png");
         texture.loadFromImage(image);
         enemysprite.setTexture(texture);
         x = X; y = Y;
@@ -94,7 +94,7 @@ int main()
     RenderWindow window(sf::VideoMode(1280, 720), "EASY GAME 228");
     
     Texture backgroundtexture;
-    backgroundtexture.loadFromFile("Resources/background.png");
+    backgroundtexture.loadFromFile("background.png");
     
     Sprite backgroundsprite;
     backgroundsprite.setTexture(backgroundtexture);
@@ -103,7 +103,7 @@ int main()
     backgroundsprite.setColor(sf::Color(196, 0, 0, 255));
     
     Texture poisontexture;
-    poisontexture.loadFromFile("Resources/poison.png");
+    poisontexture.loadFromFile("poison.png");
     
     Sprite poisonsprite;
     poisonsprite.setTexture(poisontexture);
@@ -112,7 +112,7 @@ int main()
     poisonsprite.setColor(sf::Color(0, 196, 0, 196));
     
     Texture herotexture;
-    herotexture.loadFromFile("Resources/hero2.png");
+    herotexture.loadFromFile("hero2.png");
     
     Sprite herosprite;
     herosprite.setTexture(herotexture);
@@ -128,7 +128,7 @@ int main()
     enemy2 e2(256, 256);
     enemy3 e3(400, 400);
     
-    float CurrentFrame = 0;  //С…СЂР°РЅРёС‚ С‚РµРєСѓС‰РёР№ РєР°РґСЂ
+    float CurrentFrame = 0;  //хранит текущий кадр
     Clock clock;
     
     while (window.isOpen())
@@ -136,11 +136,11 @@ int main()
        
         on_ground = onGround();
         
-        if (p1.platformsprite.getPosition().y < herosprite.getPosition().y - 127 < p1.platformsprite.getPosition().y - 145) // РµСЃР»Рё СЃС‚РѕРёС‚ РЅР° РїРµСЂРІРѕР№ РїР»Р°С‚С„РѕСЂРјРµ (РєРѕС‚РѕСЂР°СЏ РІСЃРµРіРґР° РІ СЃС‚Р°С‚РёС‡РЅРѕРј РїРѕР»РѕР¶РµРЅРёРё), С‚Рѕ РѕРЅ СЃС‚Р°С‚РёС‡РµРЅ
+        if (p1.platformsprite.getPosition().y < herosprite.getPosition().y - 127 < p1.platformsprite.getPosition().y - 145) // если стоит на первой платформе (которая всегда в статичном положении), то он статичен
             stayOnStatic = true;
         
         if (on_ground && (p2.platformsprite.getPosition().y < herosprite.getPosition().y - 127 < p2.platformsprite.getPosition().y - 145) && ((p2.platformsprite.getPosition().x < herosprite.getPosition().x < p2.platformsprite.getPosition().x + 256))){
-            onMovingPlatform = true; // РµСЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РЅР°С…РѕРґРёС‚СЃСЏ РІ Р·РѕРЅРµ РІС‚РѕСЂРѕР№ РїР»Р°С‚С„РѕСЂРјС‹, С‚Рѕ РѕРЅ РґРІРёРіР°РµС‚СЃСЏ РІРјРµСЃС‚Рµ СЃ РЅРµР№
+            onMovingPlatform = true; // если персонаж находится в зоне второй платформы, то он двигается вместе с ней
             stayOnStatic = false;
         } else {
             onMovingPlatform = false;
@@ -170,22 +170,22 @@ int main()
         }
         
         
-        ///////////////////////////////////////////РЈРїСЂР°РІР»РµРЅРёРµ РїРµСЂСЃРѕРЅР°Р¶РµРј СЃ Р°РЅРёРјР°С†РёРµР№////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////Управление персонажем с анимацией////////////////////////////////////////////////////////////////////////
         
-        if ((Keyboard::isKeyPressed(Keyboard::Left))) { //РµСЃР»Рё РЅР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° СЃС‚СЂРµР»РєР° РІР»РµРІРѕ
-            //            CurrentFrame += 0.005*time; //СЃР»СѓР¶РёС‚ РґР»СЏ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ РїРѕ "РєР°РґСЂР°Рј". РїРµСЂРµРјРµРЅРЅР°СЏ РґРѕС…РѕРґРёС‚ РґРѕ С‚СЂРµС… СЃСѓРјРјРёСЂСѓСЏ РїСЂРѕРёР·РІРµРґРµРЅРёРµ РІСЂРµРјРµРЅРё Рё СЃРєРѕСЂРѕСЃС‚Рё. РёР·РјРµРЅРёРІ 0.005 РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ Р°РЅРёРјР°С†РёРё
-            //            if (CurrentFrame > 3) CurrentFrame -= 3; //РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РєР°РґСЂР°Рј СЃ РїРµСЂРІРѕРіРѕ РїРѕ С‚СЂРµС‚РёР№ РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ. РµСЃР»Рё РїСЂРёС€Р»Рё Рє С‚СЂРµС‚СЊРµРјСѓ РєР°РґСЂСѓ - РѕС‚РєРёРґС‹РІР°РµРјСЃСЏ РЅР°Р·Р°Рґ.
-            //            herosprite.setTextureRect(IntRect(96 * int(CurrentFrame), 96, 96, 96)); //РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РҐ. РїРѕР»СѓС‡Р°РµС‚СЃСЏ 96,96*2,96*3 Рё РѕРїСЏС‚СЊ 96
+        if ((Keyboard::isKeyPressed(Keyboard::Left))) { //если нажата клавиша стрелка влево
+            //            CurrentFrame += 0.005*time; //служит для прохождения по "кадрам". переменная доходит до трех суммируя произведение времени и скорости. изменив 0.005 можно изменить скорость анимации
+            //            if (CurrentFrame > 3) CurrentFrame -= 3; //проходимся по кадрам с первого по третий включительно. если пришли к третьему кадру - откидываемся назад.
+            //            herosprite.setTextureRect(IntRect(96 * int(CurrentFrame), 96, 96, 96)); //проходимся по координатам Х. получается 96,96*2,96*3 и опять 96
             herosprite.move(-0.2*time, 0);
             changeHeroPosition(herosprite.getPosition().x, herosprite.getPosition().y);
         }
         
         if ((Keyboard::isKeyPressed(Keyboard::Right))) {
-//                        CurrentFrame += 0.005*time; //СЃР»СѓР¶РёС‚ РґР»СЏ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ РїРѕ "РєР°РґСЂР°Рј". РїРµСЂРµРјРµРЅРЅР°СЏ РґРѕС…РѕРґРёС‚ РґРѕ С‚СЂРµС… СЃСѓРјРјРёСЂСѓСЏ РїСЂРѕРёР·РІРµРґРµРЅРёРµ РІСЂРµРјРµРЅРё Рё СЃРєРѕСЂРѕСЃС‚Рё. РёР·РјРµРЅРёРІ 0.005 РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ Р°РЅРёРјР°С†РёРё
-//                        if (CurrentFrame > 4) CurrentFrame -= 4; //РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РєР°РґСЂР°Рј СЃ РїРµСЂРІРѕРіРѕ РїРѕ С‚СЂРµС‚РёР№ РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ. РµСЃР»Рё РїСЂРёС€Р»Рё Рє С‚СЂРµС‚СЊРµРјСѓ РєР°РґСЂСѓ - РѕС‚РєРёРґС‹РІР°РµРјСЃСЏ РЅР°Р·Р°Рґ.
-//                        herosprite.setTextureRect(IntRect(32 * int(CurrentFrame), 128, 128, 128)); //РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РҐ. РїРѕР»СѓС‡Р°РµС‚СЃСЏ 96,96*2,96*3 Рё РѕРїСЏС‚СЊ 96
+//                        CurrentFrame += 0.005*time; //служит для прохождения по "кадрам". переменная доходит до трех суммируя произведение времени и скорости. изменив 0.005 можно изменить скорость анимации
+//                        if (CurrentFrame > 4) CurrentFrame -= 4; //проходимся по кадрам с первого по третий включительно. если пришли к третьему кадру - откидываемся назад.
+//                        herosprite.setTextureRect(IntRect(32 * int(CurrentFrame), 128, 128, 128)); //проходимся по координатам Х. получается 96,96*2,96*3 и опять 96
             
-            herosprite.move(0.2*time, 0);//РїСЂРѕРёСЃС…РѕРґРёС‚ СЃР°РјРѕ РґРІРёР¶РµРЅРёРµ РїРµСЂСЃРѕРЅР°Р¶Р° РІРїСЂР°РІРѕ
+            herosprite.move(0.2*time, 0);//происходит само движение персонажа вправо
             changeHeroPosition(herosprite.getPosition().x, herosprite.getPosition().y);
             
         }
@@ -200,7 +200,7 @@ int main()
             
         }
 
-        // Р”Р’РР–Р•РќРР• Р РћРЎРўРђРќРћР’РљРђ РџР›РђРўР¤РћР РњР«
+        // ДВИЖЕНИЕ И ОСТАНОВКА ПЛАТФОРМЫ
         
         if (p2.platformsprite.getPosition().x >= 1280-256)
             platformMove = false;
@@ -239,7 +239,7 @@ int main()
             changeHeroPosition(herosprite.getPosition().x, herosprite.getPosition().y);
         }
         
-        // Р’Р РђРђРђРђРђРђРђРђР“
+        // ВРААААААААГ
         
         if (enemyLive){
             if (!enemyMove)
@@ -252,7 +252,7 @@ int main()
                 enemyMove = true;
         }
         
-        // Р”Р’РР–Р•РќРР• РџР•Р РЎРћРќРђР–Рђ РЎ РџР›РђРўР¤РћР РњРћР™
+        // ДВИЖЕНИЕ ПЕРСОНАЖА С ПЛАТФОРМОЙ
         
         if (onMovingPlatform){
             if (!stayOnStatic)
@@ -274,7 +274,7 @@ int main()
         window.draw(p1.platformsprite);
         window.draw(p2.platformsprite);
         
-        /////////////РЅР°Р±СЂРѕСЃРѕРє////////////
+        /////////////набросок////////////
         for (int i = 0; i <= countOfPlatform; i++){
             SPRITE.platformsprite.setPosition(MASSIVEX[i], MASSIVEY[i]);
             window.draw(SPRITE.platformsprite);

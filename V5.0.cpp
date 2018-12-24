@@ -1,11 +1,10 @@
-#include "StdAfx.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "core.hpp"
 #include <SFML/Audio.hpp>
 #include "allclass.hpp"
-#include <vector>
 #include <list>
+
 using namespace sf;
 using namespace std;
 
@@ -371,16 +370,8 @@ void menu (RenderWindow & window) {
                 HeroCanJump = 1;
             
             // ПУЛЯ
-
-			  std::list<bullet*>  bullets;
-			std::list<bullet*>::iterator bb;
-
-				bullets.push_back(new bullet( 32, 14));
-		for (bb = bullets.begin(); bb != bullets.end(); bb++){
-			(*bb)->pow.dirBullet(pow.bulletsprite.getPosition().x, pow.bulletsprite.getPosition().y);
-			}
-						
-			
+            
+	
             
             if ((Keyboard::isKeyPressed(Keyboard::A) && youCanShoot)){ //Стрельба
                 youCanShoot = false;
@@ -390,12 +381,11 @@ void menu (RenderWindow & window) {
                     pow.dirBullet = -1;
                 generatebullet = true;
             }
-          
-			
+            
             if (generatebullet){  //Появление пули
                 pow.bulletLive = true;
                 if (pow.dirBullet == 1)
-                    pow.bulletsprite.setScale(1, 1);
+                   pow.bulletsprite.setScale(1, 1);
                 else
                     pow.bulletsprite.setScale(-1, 1);
                 pow.bulletsprite.move(0.8 * pow.dirBullet * time, 0);
@@ -667,4 +657,3 @@ int main()
         }
     return 0;
 }
-
