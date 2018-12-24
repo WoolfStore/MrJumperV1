@@ -1,6 +1,3 @@
-//
-//  allclass.hpp
-//  sfml test
 
 
 #ifndef allclass_h
@@ -28,6 +25,7 @@ class enemy {
 public:
     bool enemyMove;
     bool enemyLive;
+    int lives;
     Image image;
     Texture texture;
     Sprite enemysprite;
@@ -45,6 +43,7 @@ class enemy2 {
 public:
     bool enemyMove;
     bool enemyLive;
+    int lives;
     Image image;
     Texture texture;
     Sprite enemysprite;
@@ -60,8 +59,8 @@ public:
 
 class enemy3 {
 public:
-    bool enemyMove;
     bool enemyLive;
+    int lives;
     Image image;
     Texture texture;
     Sprite enemysprite;
