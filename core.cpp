@@ -1,11 +1,10 @@
-//
-//  core.cpp
-//  sfml test
 
 
 #include "core.hpp"
 #include <iostream>
 #include <stdio.h>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -31,6 +30,10 @@ struct Bullet{
     int y;
 };
 
+int score = 0;
+int newY = 0;
+string name = "Jumper";
+
 Hero mainHero; // Создание главного героя
 Platform platform;
 Platform movingPlatform;
@@ -42,6 +45,7 @@ Bullet enemyBullet;
 Bullet heroBullet;
 
 int quantityOfPlatforms = 1;
+int control = 0;
 
 int convertYCoordinate(int y){
     return(720 - y);
@@ -80,20 +84,30 @@ void changeHeroPosition(int x, int y){
     
 }
 
-int gameOver(){
-    if (mainHero.lives == 0) {
+int gameOver(bool enemyAlive){
+    if (mainHero.lives <= 0) {
         return 2;
     }
-    if (mainHero.y <= 32){
+    if (mainHero.y - 32 <= 32){
         
         mainHero.lives -= 0.5;
+        
+        if (quantityOfPlatforms == 2 && enemyAlive && (mainHero.lives == 2 || mainHero.lives == 1)){
+            quantityOfPlatforms -= 1;
+        }
+        if (quantityOfPlatforms > 2 && enemyAlive && (mainHero.lives == 2 || mainHero.lives == 1)){
+            quantityOfPlatforms -= 1;
+        }
+        if (quantityOfPlatforms >= 3 && (mainHero.lives == 2 || mainHero.lives == 1)){
+            quantityOfPlatforms -= 2;
+        }
+        
         
         cout << mainHero.lives << "\n";
         return 1;
     }
     return 0;
 }
-
 
 int onGround(){// возвращает 1 если стоит на колонне, 2 если стоит на двигующейся платформе, 0 если не стоит
     
@@ -140,17 +154,24 @@ int crash() { // столкновение с двигающийся платфо
 }
 
 void fightWithAShadow(int width, int height){
-    if ((mainHero.x <= ghost.x + width && mainHero.x + 64 >= ghost.x) && (mainHero.y - 128 <= ghost.y) && (mainHero.y >= ghost.y - height)) mainHero.lives -= 1;
+    if ((mainHero.x + 15 <= ghost.x + width && mainHero.x + 49 >= ghost.x) && (mainHero.y - 118 <= ghost.y) && (mainHero.y - 15 >= ghost.y - height)) mainHero.lives -= 3;
 }
 
-void comradYouHaveAHole(){
-    if ((mainHero.x + 64) >= enemyBullet.x >= mainHero.x - 16) mainHero.lives -= 1;
+bool comradYouHaveAHole(){
+    if (mainHero.x + 64 >= enemyBullet.x && mainHero.x <= enemyBullet.x + 15 && enemyBullet.y <= mainHero.y && enemyBullet.y >= mainHero.y - 128) {
+        mainHero.lives -= 1;
+        enemyBullet.x = -100;
+        enemyBullet.y = -100;
+        return true;
+    }
+    return false;
 }
 
 bool niceShoot(int width, int height){
     if ((ghost.x + 15 <= heroBullet.x + width) && (heroBullet.x <= ghost.x + width - 15) && (heroBullet.y - 14 >= ghost.y - height) && (heroBullet.y <= ghost.y)){
         ghost.x = -100;
         ghost.y = -100;
+        score += 1;
         return true;
     }
     return false;
@@ -158,7 +179,8 @@ bool niceShoot(int width, int height){
 
 bool stopPlatform(){
     if (onGround() == 2){
-        if (platform.x - 240 <= movingPlatform.x <= platform.x + 495) return true;
+        if (movingPlatform.x + 240 >= platform.x && movingPlatform.x <= platform.x + 240) return true;
+        score += 1;
     }
     return false;
 }
@@ -189,24 +211,81 @@ int stop(){ // 1 - right 2 - left, 3 - top 0 - ok
     if (mainHero.x + 64 >= 1280) return 1;
     if (mainHero.y >= 720) return 3;
     
-//    for (int i = 0; i < quantityOfPlatforms; i++){
-//        if ((arrayOfPlatforms[i].y >= mainHero.y) && ((arrayOfPlatforms[i].y - 64) <= (mainHero.y - 128))){
-//            if (mainHero.x <= arrayOfPlatforms[i].x + 256) return 2;
-//            if (mainHero.x + 64 >= arrayOfPlatforms[i].x) return 1;
-//        }
-//    }
+    for (int i = 0; i < quantityOfPlatforms; i++){
+        if ((arrayOfPlatforms[i].y <= mainHero.y) && (arrayOfPlatforms[i].y - 64 >= mainHero.y - 128)){
+            if (arrayOfPlatforms[i].x <= mainHero.x + 64){
+                return 1;
+            }
+            if (arrayOfPlatforms[i].x + 256 <= mainHero.x){
+                return 2;
+            }
+        }
+    }
     return 0;
 }
 
+int whatIsScore(){
+    return score;
+}
 
+int finish(){
+    if (mainHero.lives == 3) score += 10;
+    if (mainHero.lives == 2) score += 5;
+    if (mainHero.lives == 1) score += 3;
+    score += 10; // за финиш
+    
+    ifstream file;
+    file.open("score.txt", ios::in);
+    string line;
+    string arrayOfLines[100];
+    int i = 0;
+    bool yes = false;
+    while (getline(file, line)) {
+        
+        if (yes){
+            arrayOfLines[i] = score;
+            yes = false;
+        } else {
+            if (line == (name + "\n")){
+                yes = true;
+                arrayOfLines[i] = line;
+            } else {
+                arrayOfLines[i] = true;
+            }
+        }
+        i++;
+    }
+    file.close();
+    
+    remove("score.txt");
+    
+    ofstream newFile;
+    newFile.open("score.txt", ios::out);
+    
+    for (int c = 0; c < i; i++){
+        newFile << arrayOfLines[c];
+    }
+    
+    newFile.close();
+    
+    return score;
+}
 
+bool endOfJump(){
+    if (onGround() != 0){
+        newY = mainHero.y;
+        return false;
+    } else {
+        if (mainHero.y - newY >= 200){
+            return true;
+        }
+    }
+    return false;
+}
 
-
-
-
-
-
-
+void whatIsQuantityOfPlatform(int count){
+    quantityOfPlatforms = count;
+}
 
 
 

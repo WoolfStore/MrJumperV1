@@ -30,9 +30,7 @@ public:
     bool enemyMove;
     bool enemyLive;
     int lives;
-    Image image;
-    Texture texture;
-    Sprite enemysprite; }
+
 
 
 
@@ -63,6 +61,7 @@ class enemy2 {
 public:
     bool enemyMove;
     bool enemyLive;
+    int lives;
     Image image;
     Texture texture;
     Sprite enemysprite;
@@ -81,8 +80,18 @@ class enemy2 : public enemy {
 };
 
 
+
 class enemy3 : public enemy {
 
+
+
+class enemy3 {
+public:
+    bool enemyLive;
+    int lives;
+    Image image;
+    Texture texture;
+    Sprite enemysprite;
 
     
     enemy3(float X, float Y){
